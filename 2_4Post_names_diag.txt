@@ -1,0 +1,12 @@
+alias client="HTTP client"
+alias rackup="rackup "
+alias app="Apllication class \n(app.rb)"
+alias code="POST '/names'\n block"
+
+client->rackup:"HTTP request \nto POST /names"
+rackup->app:"forward request"
+app->app:"search for block \nwith path \npost /names"
+app->code:"forward request to \n post /names code block"
+code->app: "return list of names in order"
+app->rackup: "forward response"
+rackup->client: "HTTP response"
