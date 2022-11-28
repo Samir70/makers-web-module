@@ -30,6 +30,7 @@ describe AlbumRepository do
     expect(album.id).to eq(3)
     expect(album.title).to eq('Waterloo')
     expect(album.artist_id).to eq(2)
+    expect(album.artist_name).to eq "ABBA"
   end
 
   it 'creates an album' do
