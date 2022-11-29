@@ -1,7 +1,7 @@
 require "spec_helper"
 require "rack/test"
 require_relative "../../app"
- 
+
 def reset_albums_table
   seed_sql = File.read("spec/seeds/albums_seeds.sql")
   connection = PG.connect({ host: "127.0.0.1", dbname: "music_library_test" })
@@ -25,23 +25,23 @@ describe Application do
     reset_artists_table
     reset_albums_table
   end
-  
+
   describe "album routes" do
     context "GET request to /albums/:id" do
       it "returns a correctly formatted page with album info" do
         response = get("/albums/3")
-        
+
         expect(response.status).to eq 200
         expect(response.body).to include('<span id="album-title">Waterloo</span>')
         expect(response.body).to include('<span id="artist-name">ABBA</span>')
         expect(response.body).to include('<span id="release-year">1974</span>')
       end
     end
-    
+
     context "GET /albums" do
       it "returns HTML with a list of album data, one album per list item" do
         response = get("/albums")
-        
+
         expect(response.status).to eq 200
         expect(response.body).to include('<ul id="albums-list"')
         expect(response.body).to include('<li class="album-data">').exactly(12).times
@@ -53,11 +53,11 @@ describe Application do
         expect(response.body).to include('<a href="/albums/10">Here Comes the Sun</a>')
       end
     end
-    
+
     context "POST request to /albums" do
       it "finds newly posted album data in the album list" do
         response = post("/albums", title: "Flying in a Blue Dream", release_year: 1989, artist_id: 1)
-        
+
         expect(response.status).to eq 200
         expect(response.body).to eq ""
         albums = get("/albums")
@@ -66,16 +66,19 @@ describe Application do
       end
     end
   end
-  
+
   describe "Artist routes" do
     context "GET /artists" do
       it "returns a list of artists" do
         response = get("/artists")
 
         expect(response.status).to eq 200
-        expect(response.body).to eq "Pixies, ABBA, Taylor Swift, Nina Simone"
+        expect(response.body).to include "<html"
+        expect(response.body).to include('<a href="/artists/1">Pixies</a>')
+        expect(response.body).to include('<a href="/artists/2">ABBA</a>')
+        expect(response.body).to include('<a href="/artists/4">Nina Simone</a>')
       end
-      
+
       it "returns the details of an artist when given an id" do
         response = get("/artists/2")
         expect(response.status).to eq 200
@@ -84,7 +87,9 @@ describe Application do
         expect(response.body).to include "Name: ABBA"
         expect(response.body).to include "Genre: Pop"
       end
+    end
 
+    context "POST artists" do
       it "POST /artists" do
         response = post("/artists", name: "Iron Maiden", genre: "Heavy Metal")
         expect(response.status).to eq 200
