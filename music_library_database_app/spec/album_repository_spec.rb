@@ -18,8 +18,10 @@ describe AlbumRepository do
     albums = repo.all
     
     expect(albums.length).to eq(12)
+    expect(albums.first.id).to eq(1)
     expect(albums.first.title).to eq('Doolittle')
     expect(albums.first.artist_id).to eq(1)
+    expect(albums.first.artist_name).to eq("Pixies")
   end
 
   it 'finds one album' do
