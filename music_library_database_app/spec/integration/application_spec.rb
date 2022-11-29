@@ -75,6 +75,16 @@ describe Application do
         expect(response.status).to eq 200
         expect(response.body).to eq "Pixies, ABBA, Taylor Swift, Nina Simone"
       end
+      
+      it "returns the details of an artist when given an id" do
+        response = get("/artists/2")
+        expect(response.status).to eq 200
+        expect(response.body).to include "<html"
+        expect(response.body).to include "<h1>Artist Info Page</h1>"
+        expect(response.body).to include "Name: ABBA"
+        expect(response.body).to include "Genre: Pop"
+      end
+
       it "POST /artists" do
         response = post("/artists", name: "Iron Maiden", genre: "Heavy Metal")
         expect(response.status).to eq 200
