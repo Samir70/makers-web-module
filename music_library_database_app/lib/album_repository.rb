@@ -19,9 +19,6 @@ class AlbumRepository
   def create(album)
     sql = "INSERT INTO albums (title, release_year, artist_id) VALUES ($1, $2, $3);"
     result_set = DatabaseConnection.exec_params(sql, [album.title, album.release_year, album.artist_id])
-    puts "created album"
-    puts album
-    DatabaseConnection.exec_params("SELECT * FROM albums", []).each {|el| puts el}
     return album
   end
 

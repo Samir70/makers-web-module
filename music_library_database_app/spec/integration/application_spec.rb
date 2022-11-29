@@ -56,17 +56,12 @@ describe Application do
         expect(response.status).to eq 200
         expect(response.body).to eq ""
         albums = get("/albums")
-        puts "post request:", albums.body
         expect(albums.status).to eq 200
         expect(albums.body).to include "Flying in a Blue Dream"
       end
     end
   end
   
-  # before(:each) do
-  #   reset_albums_table
-  #   reset_artists_table
-  # end
   describe "Artist routes" do
     context "GET /artists" do
       it "returns a list of artists" do
