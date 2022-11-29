@@ -50,7 +50,7 @@ describe Application do
     end
     
     context "POST request to /albums" do
-      it "finds newly posted album data at the end of album list" do
+      it "finds newly posted album data in the album list" do
         response = post("/albums", title: "Flying in a Blue Dream", release_year: 1989, artist_id: 1)
         
         expect(response.status).to eq 200
