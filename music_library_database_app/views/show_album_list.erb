@@ -7,7 +7,7 @@
         <div>
             <% @albums.each do |album| %>
             <li class="album-data">
-                <%= "#{album.artist_name} -- #{album.title}"%>
+                <a href="/albums/<%=album.id%>"><%= album.title %></a>
             </li>
             <% end %>
         </div>

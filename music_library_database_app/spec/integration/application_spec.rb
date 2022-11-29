@@ -1,7 +1,7 @@
 require "spec_helper"
 require "rack/test"
 require_relative "../../app"
-
+ 
 def reset_albums_table
   seed_sql = File.read("spec/seeds/albums_seeds.sql")
   connection = PG.connect({ host: "127.0.0.1", dbname: "music_library_test" })
@@ -45,7 +45,12 @@ describe Application do
         expect(response.status).to eq 200
         expect(response.body).to include('<ul id="albums-list"')
         expect(response.body).to include('<li class="album-data">').exactly(12).times
-        expect(response.body).to include("Pixies").exactly(3).times
+        expect(response.body).to include("Ring Ring")
+        expect(response.body).to include("Doolittle")
+        expect(response.body).to include("Folklore")
+        expect(response.body).to include('<a href="/albums/6">Lover</a>')
+        expect(response.body).to include('<a href="/albums/5">Bossanova</a>')
+        expect(response.body).to include('<a href="/albums/10">Here Comes the Sun</a>')
       end
     end
     
