@@ -1,3 +1,5 @@
+POST /artists
+
 alias client="client"
 alias rackup="rackup"
 alias app="Application \napp.rb"
@@ -15,3 +17,28 @@ repo->route:"Forward response"
 route->app:"Forward response"
 app->rackup:"Forward response"
 rackup->client:"Send HTTP response"
+
+
+
+GET artist/:id
+
+alias client="client"
+alias rackup="rackup"
+alias app="application \napp.rb"
+alias erb="show_artist.erb"
+alias route="route block"
+alias repo="ArtistRepository"
+alias data="Database \nmusic_library"
+
+
+client->rackup: "Send HTTP request"
+rackup->app:"Forward request"
+app->route:"Forward request"
+route->repo:"calls .find(:id)"
+repo->data:"sql command"
+data->repo:"sends data"
+repo->route:"sends data \nas Artist class"
+erb->app:"sends filled template"
+route->erb:"sends artist data"
+app->rackup:"sends filled template"
+rackup->client:"send HTML response"
