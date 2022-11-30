@@ -38,6 +38,12 @@ class ArtistRepository
     return artist
   end
 
+  def find_by_name(name)
+    sql = 'SELECT * FROM artists WHERE name = $1'
+    result_set = DatabaseConnection.exec_params(sql, [name]).map {|el| Artist.new(el["id"].to_i, el["name"], el["genre"])}
+    return result_set[0]
+  end
+
   def create(artist)
     sql = 'INSERT INTO artists (name, genre) VALUES ($1, $2);'
     result_set = DatabaseConnection.exec_params(sql, [artist.name, artist.genre])

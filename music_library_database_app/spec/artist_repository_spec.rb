@@ -21,13 +21,22 @@ describe ArtistRepository do
     expect(artists.first.name).to eq('Pixies')
   end
 
-  it 'finds one artist' do
+  it 'finds one artist, by id' do
     repo = ArtistRepository.new
 
     artist = repo.find(3)
     
     expect(artist.id).to eq(3)
     expect(artist.name).to eq('Taylor Swift')
+  end
+  it 'finds one artist, by name' do
+    repo = ArtistRepository.new
+
+    artist = repo.find_by_name("Taylor Swift")
+    
+    expect(artist.id).to eq(3)
+    expect(artist.name).to eq('Taylor Swift')
+    expect(artist.genre).to eq('Pop')
   end
 
   it 'creates an album' do
