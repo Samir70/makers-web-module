@@ -48,6 +48,6 @@ class ArtistRepository
     sql = 'INSERT INTO artists (name, genre) VALUES ($1, $2);'
     result_set = DatabaseConnection.exec_params(sql, [artist.name, artist.genre])
 
-    return artist
+    return find_by_name(artist.name)
   end
 end

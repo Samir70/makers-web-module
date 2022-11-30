@@ -14,6 +14,10 @@ class Application < Sinatra::Base
     also_reload "lib/artist_repository"
   end
 
+  get "/albums/new" do
+    return erb(:show_new_album_form)
+  end
+
   get "/albums/:id" do
     repo = AlbumRepository.new
     album = repo.find(params[:id].to_i)
@@ -30,9 +34,36 @@ class Application < Sinatra::Base
   end
 
   post "/albums" do
-    album = Album.new(nil, params[:title], params[:release_year], params[:artist_id])
-    repo = AlbumRepository.new
-    repo.create(album)
+    # status = 400
+    bad_data = [nil, ""]
+    artist_name = params[:artist_name]
+    title = params[:title]
+    release_year = params[:release_year]
+
+    # Validate
+    @error = nil
+    if bad_data.include?(artist_name)
+      @error = "You should name the artist for this album"
+    elsif bad_data.include?(title)
+      @error = "You should name the title of this album"
+    elsif bad_data.include?(release_year) 
+      @error = "Hey..! When was this album released?"
+    end
+    if @error != nil
+      return  400, erb(:show_error)
+    end
+
+    release_year = release_year.to_i
+    # check if album artist is new
+    artist_repo = ArtistRepository.new
+    artist = artist_repo.find_by_name(artist_name)
+    if artist == nil
+      artist = Artist.new(nil, artist_name, '???')
+      artist = artist_repo.create(artist)
+    end
+    album = Album.new(nil, title, release_year, artist.id, artist.name)
+    album_repo = AlbumRepository.new
+    album_repo.create(album)
     return ""
   end
 
