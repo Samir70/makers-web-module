@@ -146,6 +146,7 @@ describe Application do
         expect(response.body).to include('<a href="/artists/1">Pixies</a>')
         expect(response.body).to include('<a href="/artists/2">ABBA</a>')
         expect(response.body).to include('<a href="/artists/4">Nina Simone</a>')
+        expect(response.body).to include('<a href="/albums">See list of albums</a>')
       end
 
       it "returns the details of an artist when given an id" do
