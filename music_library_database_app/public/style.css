@@ -1,0 +1,27 @@
+li {
+    list-style-type: circle ;
+}
+li a {
+    display: block;
+    text-decoration: none;
+    color:black;
+}
+
+li a:hover {
+    /* background: lightblue; */
+    text-shadow: indigo 1px 0 10px;
+    width: fit-content;
+}
+
+.info-box {
+    display: block;
+    width: fit-content;
+    margin: auto;
+    padding: 5px;
+    border: 1px solid black;
+    box-shadow: 2px 5px 10px indigo;
+}
+
+h1 {
+    text-align: center;
+}

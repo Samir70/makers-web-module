@@ -69,6 +69,8 @@ describe Application do
         response = get("/albums")
 
         expect(response.status).to eq 200
+        expect(response.body).to include "<title>List of amazingly eclectic albums</title>"
+        expect(response.body).to include '<link rel="stylesheet" href="/style.css"'
         expect(response.body).to include('<ul id="albums-list"')
         expect(response.body).to include('<li class="album-data">').exactly(12).times
         expect(response.body).to include("Ring Ring")
@@ -143,6 +145,8 @@ describe Application do
 
         expect(response.status).to eq 200
         expect(response.body).to include "<html"
+        expect(response.body).to include "<title>List of amazingly eclectic albums</title>"
+        expect(response.body).to include '<link rel="stylesheet" href="/style.css"'
         expect(response.body).to include('<a href="/artists/1">Pixies</a>')
         expect(response.body).to include('<a href="/artists/2">ABBA</a>')
         expect(response.body).to include('<a href="/artists/4">Nina Simone</a>')

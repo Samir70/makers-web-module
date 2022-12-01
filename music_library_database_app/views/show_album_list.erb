@@ -1,5 +1,8 @@
 <html>
-  <head></head>
+  <head>
+    <title>List of amazingly eclectic albums</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
   <body>
     <h1>Welcome to the Music Library</h1>
     <div id="header">
@@ -11,7 +14,7 @@
         <div>
             <% @albums.each do |album| %>
             <li class="album-data">
-                <a href="/albums/<%=album.id%>"><%= album.title %></a>
+                <a href="/albums/<%= album.id %>"><%= album.title %></a>
             </li>
             <% end %>
         </div>

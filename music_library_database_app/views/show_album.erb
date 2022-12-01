@@ -1,9 +1,13 @@
 <html>
-  <head></head>
+  <head>
+    <link rel="stylesheet" href="/style.css">
+  </head>
   <body>
     <h1>Welcome to the Music Library</h1>
-    <div>Album Title: <span id="album-title"><%= @title %></span> </div>
-    <div>Artist: <span id="artist-name"><%= @artist_name %></span> </div>
-    <div>Released in: <span id="release-year"><%=@release_year%></span> </div>
+    <div class="info-box">
+      <div>Album Title: <span id="album-title"><%= @title %></span> </div>
+      <div>Artist: <span id="artist-name"><%= @artist_name %></span> </div>
+      <div>Released in: <span id="release-year"><%=@release_year%></span> </div>
+    </div>
   </body>
 </html>

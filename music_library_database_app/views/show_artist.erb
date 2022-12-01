@@ -1,8 +1,12 @@
 <html>
-  <head></head>
+  <head>
+    <link rel="stylesheet" href="/style.css">
+  </head>
   <body>
     <h1>Artist Info Page</h1>
-    <div id="artist-name">Name: <%= @artist.name %></div>
-    <div id="genre">Genre: <%= @artist.genre %></div>
+    <div class="info-box">
+      <div id="artist-name">Name: <%= @artist.name %></div>
+      <div id="genre">Genre: <%= @artist.genre %></div>
+    </div>
   </body>
 </html>
