@@ -77,6 +77,8 @@ describe Application do
         expect(response.body).to include('<a href="/albums/6">Lover</a>')
         expect(response.body).to include('<a href="/albums/5">Bossanova</a>')
         expect(response.body).to include('<a href="/albums/10">Here Comes the Sun</a>')
+        expect(response.body).to include('<a href="/albums/new">Add another album</a>')
+        expect(response.body).to include('<a href="/artists">See list of artists</a>')
       end
     end
 
