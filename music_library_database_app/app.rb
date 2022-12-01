@@ -14,6 +14,10 @@ class Application < Sinatra::Base
     also_reload "lib/artist_repository"
   end
 
+  get "/" do
+    redirect to("/albums"), 302
+  end
+
   get "/albums/new" do
     return erb(:show_new_album_form)
   end
@@ -46,11 +50,11 @@ class Application < Sinatra::Base
       @error = "You should name the artist for this album"
     elsif bad_data.include?(title)
       @error = "You should name the title of this album"
-    elsif bad_data.include?(release_year) 
+    elsif bad_data.include?(release_year)
       @error = "Hey..! When was this album released?"
     end
     if @error != nil
-      return  400, erb(:show_error)
+      return 400, erb(:show_error)
     end
 
     release_year = release_year.to_i
@@ -58,13 +62,13 @@ class Application < Sinatra::Base
     artist_repo = ArtistRepository.new
     artist = artist_repo.find_by_name(artist_name)
     if artist == nil
-      artist = Artist.new(nil, artist_name, '???')
+      artist = Artist.new(nil, artist_name, "???")
       artist = artist_repo.create(artist)
     end
     album = Album.new(nil, title, release_year, artist.id, artist.name)
     album_repo = AlbumRepository.new
     album_repo.create(album)
-    return ""
+    redirect to("/albums"), 302
   end
 
   get "/artists" do
@@ -75,6 +79,9 @@ class Application < Sinatra::Base
   get "/artists/:id" do
     repo = ArtistRepository.new
     @artist = repo.find(params[:id].to_i)
+    if @artist == nil
+      redirect to("/artists"), 302
+    end
     return erb(:show_artist)
   end
 
@@ -82,6 +89,6 @@ class Application < Sinatra::Base
     repo = ArtistRepository.new
     artist = Artist.new(nil, params[:name], params[:genre])
     repo.create(artist)
-    return ""
+    redirect to("/artists")
   end
 end

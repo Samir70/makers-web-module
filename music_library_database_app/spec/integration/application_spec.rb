@@ -27,6 +27,13 @@ describe Application do
   end
 
   describe "album routes" do
+    it "redirects to GET/albums when sent to '/'" do
+      response = get("/")
+      expect(response.status).to eq 302
+      follow_redirect!
+      expect(last_request.url).to eq "http://example.org/albums"
+      expect(last_request.get?).to eq true
+    end
     context "GET/albums/new" do
       it "returns a form to submit a new album" do
         response = get("/albums/new")
@@ -76,21 +83,21 @@ describe Application do
     context "POST request to /albums" do
       it "returns an error page if new album data is missing artist name" do
         response = post("/albums", title: "Flying in a Blue Dream", release_year: 1989, artist_id: 1)
-        
+
         expect(response.status).to eq 400
         expect(response.body).to include "ERROR: You should name the artist for this album"
         expect(response.body).to include '<a href="/albums/new">Try again...?</a>'
       end
       it "returns an error page if new album data is missing album title" do
         response = post("/albums", title: "", release_year: 1989, artist_name: "Da Vinci")
-        
+
         expect(response.status).to eq 400
         expect(response.body).to include "ERROR: You should name the title of this album"
         expect(response.body).to include '<a href="/albums/new">Try again...?</a>'
       end
       it "returns an error page if new album data is missing release_year" do
         response = post("/albums", title: "Mona Lisa", artist_name: "Da Vinci")
-        
+
         expect(response.status).to eq 400
         expect(response.body).to include "Hey..! When was this album released?"
         expect(response.body).to include '<a href="/albums/new">Try again...?</a>'
@@ -98,16 +105,24 @@ describe Application do
       it "finds newly posted album data in the album list" do
         response = post("/albums", title: "Best of the Pixies", release_year: 1989, artist_name: "Pixies")
 
-        expect(response.status).to eq 200
+        expect(response.status).to eq 302 # redirected
         expect(response.body).to eq ""
         albums = get("/albums")
         expect(albums.status).to eq 200
         expect(albums.body).to include "Best of the Pixies"
       end
+      it "redirects to GET/albums after adding album" do
+        response = post("/albums", title: "Best of the Pixies", release_year: 1989, artist_name: "Pixies")
+
+        expect(response.status).to eq 302
+        follow_redirect!
+        expect(last_request.get?).to eq true
+        expect(last_request.url).to eq "http://example.org/albums"
+      end
       it "finds newly posted album data in the album list, and new artist in artist list" do
         response = post("/albums", title: "Flying in a Blue Dream", release_year: 1989, artist_name: "Joe Satriani")
 
-        expect(response.status).to eq 200
+        expect(response.status).to eq 302
         expect(response.body).to eq ""
         albums = get("/albums")
         expect(albums.status).to eq 200
@@ -139,13 +154,23 @@ describe Application do
         expect(response.body).to include "Name: ABBA"
         expect(response.body).to include "Genre: Pop"
       end
+      it "redirects to artists page if artist id doesn't match anything" do
+        response = get("/artists/oops")
+        expect(response.status).to eq 302
+        follow_redirect!
+        expect(last_request.get?).to eq true
+        expect(last_request.url).to eq "http://example.org/artists"
+      end
     end
 
     context "POST artists" do
-      it "POST /artists" do
+      it "POST /artists then can find the artist and redirects" do
         response = post("/artists", name: "Iron Maiden", genre: "Heavy Metal")
-        expect(response.status).to eq 200
+        expect(response.status).to eq 302
         expect(response.body).to eq ""
+        follow_redirect!
+        expect(last_request.get?).to eq true
+        expect(last_request.url).to eq "http://example.org/artists"
 
         artists = get("/artists")
         expect(artists.body).to include "Iron Maiden"
