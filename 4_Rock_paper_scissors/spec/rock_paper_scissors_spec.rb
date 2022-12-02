@@ -31,7 +31,7 @@ RSpec.describe RockPaperScissors do
     it "declares that Paper < Scissors < Rock" do
       rps = RockPaperScissors.new("Scissors")
       expect(rps.compare("Paper")).to eq "Scissors cut Paper. I win!!!"
-      expect(rps.compare("Rock")).to eq "Rock blunts scissors. You win!"
+      expect(rps.compare("Rock")).to eq "Rock blunts Scissors. You win!"
     end
   end
 end
