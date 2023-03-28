@@ -8,9 +8,15 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  get '/' do
+    puts "referrer is:", request.referrer
+    binding.irb
+    return request.referrer
+  end
   get '/hello' do
     name = params[:name]
-    return "Hello, #{name}!"
+    # return "Hello, #{name}!"
+    return "<a href='/'>click me</a>"
   end
 
   get '/names' do
